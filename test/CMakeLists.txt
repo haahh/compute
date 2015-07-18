@@ -25,7 +25,7 @@ if(${BOOST_COMPUTE_THREAD_SAFE} AND NOT ${BOOST_COMPUTE_USE_CPP11})
   set(BOOST_COMPONENTS ${BOOST_COMPONENTS} thread)
 endif()
 
-find_package(Boost 1.48 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+find_package(Boost 1.55 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 add_definitions(-DBOOST_TEST_DYN_LINK)
 
 # enable automatic kernel compilation error messages for tests

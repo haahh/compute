@@ -18,7 +18,7 @@ find_package(OpenCL REQUIRED)
 include_directories(SYSTEM ${OPENCL_INCLUDE_DIRS})
 
 # find Boost
-find_package(Boost 1.48 REQUIRED)
+find_package(Boost 1.55 REQUIRED)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 # optional support for c++11
