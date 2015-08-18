@@ -147,7 +147,7 @@ inline InputIterator find_if_with_atomics_multiple_vpt(InputIterator first,
     const size_t global_wg_size = static_cast<size_t>(
         std::ceil(float(count) / vpt)
     );
-    queue.enqueue_1d_range_kernel(kernel, 0, global_wg_size, 0);
+    queue.enqueue_1d_range_kernel(kernel, 0, global_wg_size, 64);
 
     // read index and return iterator
     return first + static_cast<difference_type>(index.read(queue));
@@ -199,6 +199,11 @@ inline InputIterator find_if_with_atomics(InputIterator first,
             std::ceil(float(count) / max_compute_units)
         );
     }
+
+    size_t wavefronts_no = 960;
+    vpt = static_cast<size_t>(
+        std::ceil(float(count) / (64 * wavefronts_no))
+    );
 
     return find_if_with_atomics_multiple_vpt(
         first, last, predicate, count, vpt, queue
