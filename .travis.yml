@@ -23,7 +23,66 @@ matrix:
     ############################################################################
     # POCL builds (OpenCL 1.0, 1.1)
     ############################################################################
-    # 1.0
+    # Precise, OpenCL 1.0, Travis CI container-based infrastructure
+    - os: linux
+      sudo: false
+      compiler: clang
+      addons:
+       apt:
+         packages: &precise_pocl_packages
+           - g++-4.8
+           # clang and llvm 3.7 for POCL
+           - clang-3.7
+           - libclang-common-3.7-dev
+           - libclang-3.7-dev
+           - libclang1-3.7
+           - libllvm3.7
+           - lldb-3.7
+           - llvm-3.7
+           - llvm-3.7-dev
+           - llvm-3.7-runtime
+           - clang-modernize-3.7
+           - clang-format-3.7
+           - lldb-3.7-dev
+           # POCL
+           - libltdl-dev
+           - libhwloc-dev
+           - pkg-config
+           - libedit-dev
+           # Boost
+           - libboost-chrono1.55-dev
+           - libboost-date-time1.55-dev
+           - libboost-test1.55-dev
+           - libboost-system1.55-dev
+           - libboost-filesystem1.55-dev
+           - libboost-timer1.55-dev
+           - libboost-program-options1.55-dev
+           - libboost-thread1.55-dev
+           # Misc
+           - python-yaml
+           - lcov
+           - libopencv-dev
+         sources: &precise_pocl_sources
+           - ubuntu-toolchain-r-test
+           - llvm-toolchain-precise-3.7
+           - boost-latest
+      env:
+        - OPENCL_LIB=pocl
+        - OPENCL_VERSION="1.0"
+        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    # Precise, OpenCL 1.1, Travis CI container-based infrastructure
+    - os: linux
+      sudo: false
+      compiler: gcc
+      addons:
+        apt:
+          packages: *precise_pocl_packages
+          sources: *precise_pocl_sources
+      env:
+        - OPENCL_LIB=pocl
+        - OPENCL_VERSION="1.1"
+        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    # Trusty, OpenCL 1.0
     - os: linux
       dist: trusty
       sudo: required
@@ -32,16 +91,16 @@ matrix:
         apt:
           packages: &trusty_pocl_packages
             - g++-4.8
-            # The latest clang (llvm-toolchain-trusty-3.7 is not whitelisted)
+            # clang and llvm 3.7 for POCL (llvm-toolchain-trusty-3.7 is not whitelisted)
             # - clang-3.7
             # - llvm-3.7
-            # - llvm-3.7-dev
+            # - llvm-3.7-dev (...)
             # POCL
-            # - libltdl-dev
-            # - libhwloc-dev
-            # - pkg-config
-            # - libedit-dev (not whitelisted)
-            # Boost libs
+            - libltdl-dev
+            - libhwloc-dev
+            - pkg-config
+            - libedit-dev (not whitelisted)
+            # Boost
             - libboost-chrono1.55-dev
             - libboost-date-time1.55-dev
             - libboost-test1.55-dev
@@ -50,6 +109,7 @@ matrix:
             - libboost-timer1.55-dev
             - libboost-program-options1.55-dev
             - libboost-thread1.55-dev
+            # Misc
             - python-yaml
             - lcov
             - libopencv-dev
@@ -60,8 +120,8 @@ matrix:
        - LINUX_DIST=trusty
        - OPENCL_LIB=pocl
        - OPENCL_VERSION="1.0"
-       - ENV_CMAKE_OPTIONS="-DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
-    # 1.1
+       - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    # Trusty, OpenCL 1.1
     - os: linux
       dist: trusty
       sudo: required
@@ -74,12 +134,12 @@ matrix:
        - LINUX_DIST=trusty
        - OPENCL_LIB=pocl
        - OPENCL_VERSION="1.1"
-       - ENV_CMAKE_OPTIONS="-DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+       - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
 
     ############################################################################
     # Khronos ICD builds (without running tests) (OpenCL 1.2, 2.0)
     ############################################################################
-    # Precise, OpenCL 1.2
+    # Precise, OpenCL 1.2, Travis CI container-based infrastructure
     - os: linux
       sudo: false
       compiler: clang
@@ -87,7 +147,7 @@ matrix:
        apt:
          packages: &precise_icd_packages
            - g++-4.8
-           - clang-3.7
+           # Boost
            - libboost-chrono1.55-dev
            - libboost-date-time1.55-dev
            - libboost-test1.55-dev
@@ -96,6 +156,7 @@ matrix:
            - libboost-timer1.55-dev
            - libboost-program-options1.55-dev
            - libboost-thread1.55-dev
+           # Misc
            - python-yaml
            - lcov
            - libopencv-dev
@@ -118,7 +179,7 @@ matrix:
         - OPENCL_LIB=khronos-icd
         - OPENCL_VERSION="1.2"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
-    # Precise, OpenCL 2.0
+    # Precise, OpenCL 2.0, Travis CI container-based infrastructure
     - os: linux
       sudo: false
       compiler: clang
@@ -150,7 +211,7 @@ matrix:
        apt:
          packages: &trusty_icd_packages
            - g++-4.8
-           #- clang-3.7
+           # Boost
            - libboost-chrono1.55-dev
            - libboost-date-time1.55-dev
            - libboost-test1.55-dev
@@ -159,12 +220,12 @@ matrix:
            - libboost-timer1.55-dev
            - libboost-program-options1.55-dev
            - libboost-thread1.55-dev
+           # Misc
            - python-yaml
            - lcov
            - libopencv-dev
          sources: &trusty_icd_sources
            - ubuntu-toolchain-r-test
-           # - llvm-toolchain-trusty-3.7 (not whitelisted yet https://github.com/travis-ci/apt-source-whitelist/issues/199)
       env:
         - LINUX_DIST=trusty
         - OPENCL_LIB=khronos-icd
@@ -228,7 +289,7 @@ before_install:
         sudo add-apt-repository -y "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.7 main"
         travis_retry wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | travis_retry sudo apt-key add -
         sudo apt-get update -qq -
-        sudo apt-get install -qq -y libltdl-dev libhwloc-dev pkg-config libedit-dev clang-3.7 libclang-common-3.7-dev libclang-3.7-dev libclang1-3.7 libllvm3.7 lldb-3.7 llvm-3.7 llvm-3.7-dev llvm-3.7-runtime clang-modernize-3.7 clang-format-3.7 lldb-3.7-dev
+        sudo apt-get install -qq -y clang-3.7 libclang-common-3.7-dev libclang-3.7-dev libclang1-3.7 libllvm3.7 lldb-3.7 llvm-3.7 llvm-3.7-dev llvm-3.7-runtime clang-modernize-3.7 clang-format-3.7 lldb-3.7-dev
       elif [[ ${TRAVIS_OS_NAME} == "osx" ]]; then
         brew update
         brew outdated boost || brew upgrade boost
@@ -268,8 +329,8 @@ install:
         fi
         mkdir build
         cd build
-        cmake -DDIRECT_LINKAGE=ON -DENABLE_ICD=OFF -DCMAKE_CXX_COMPILER=/usr/bin/${POCL_COMPILER} -DWITH_LLVM_CONFIG=/usr/bin/${POCL_LLVM_CONFIG} ..
-        sudo make install
+        cmake -DDIRECT_LINKAGE=ON -DENABLE_ICD=OFF -DCMAKE_CXX_COMPILER=/usr/bin/${POCL_COMPILER} -DWITH_LLVM_CONFIG=/usr/bin/${POCL_LLVM_CONFIG} -DCMAKE_INSTALL_PREFIX=${OPENCL_ROOT}/pocl/ ..
+        make install
         cd ../..
       fi
     ############################################################################
