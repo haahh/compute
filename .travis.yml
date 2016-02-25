@@ -4,12 +4,13 @@ env:
   global:
     # Ubuntu version
     - LINUX_DIST=precise
+    - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
     # OpenCL
     - OPENCL_LIB=default
-    - OPENCL_VERSION="1.0"
+    - OPENCL_VERSION="10"
     # Khronos OpenCL ICD
     - OPENCL_REGISTRY=https://www.khronos.org/registry/cl
-    - OPENCL_ROOT=${TRAVIS_BUILD_DIR}/bin/opencl
+    - OPENCL_ROOT=${DEPS_DIR}/opencl
     # POCL
     - POCL_VERSION=master
     - POCL_LLVM_CONFIG="llvm-config-3.7"
@@ -23,6 +24,7 @@ matrix:
     ############################################################################
     # POCL builds (OpenCL 1.0, 1.1)
     ############################################################################
+
     # Precise, OpenCL 1.0, Travis CI container-based infrastructure
     - os: linux
       sudo: false
@@ -68,9 +70,8 @@ matrix:
            - boost-latest
       env:
         - OPENCL_LIB=pocl
-        - OPENCL_VERSION="1.0"
+        - OPENCL_VERSION="10"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
-    # Precise, OpenCL 1.1, Travis CI container-based infrastructure
     - os: linux
       sudo: false
       compiler: gcc
@@ -80,13 +81,36 @@ matrix:
           sources: *precise_pocl_sources
       env:
         - OPENCL_LIB=pocl
-        - OPENCL_VERSION="1.1"
+        - OPENCL_VERSION="10"
+        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    # Precise, OpenCL 1.1, Travis CI container-based infrastructure
+    - os: linux
+      sudo: false
+      compiler: clang
+      addons:
+        apt:
+          packages: *precise_pocl_packages
+          sources: *precise_pocl_sources
+      env:
+        - OPENCL_LIB=pocl
+        - OPENCL_VERSION="11"
+        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    - os: linux
+      sudo: false
+      compiler: gcc
+      addons:
+        apt:
+          packages: *precise_pocl_packages
+          sources: *precise_pocl_sources
+      env:
+        - OPENCL_LIB=pocl
+        - OPENCL_VERSION="11"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     # Trusty, OpenCL 1.0
     - os: linux
       dist: trusty
       sudo: required
-      compiler: gcc
+      compiler: clang
       addons:
         apt:
           packages: &trusty_pocl_packages
@@ -99,7 +123,7 @@ matrix:
             - libltdl-dev
             - libhwloc-dev
             - pkg-config
-            - libedit-dev (not whitelisted)
+            - libedit-dev
             # Boost
             - libboost-chrono1.55-dev
             - libboost-date-time1.55-dev
@@ -119,7 +143,20 @@ matrix:
       env:
        - LINUX_DIST=trusty
        - OPENCL_LIB=pocl
-       - OPENCL_VERSION="1.0"
+       - OPENCL_VERSION="10"
+       - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          packages: *trusty_pocl_packages
+          sources: *trusty_pocl_sources
+      env:
+       - LINUX_DIST=trusty
+       - OPENCL_LIB=pocl
+       - OPENCL_VERSION="10"
        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     # Trusty, OpenCL 1.1
     - os: linux
@@ -133,12 +170,26 @@ matrix:
       env:
        - LINUX_DIST=trusty
        - OPENCL_LIB=pocl
-       - OPENCL_VERSION="1.1"
+       - OPENCL_VERSION="11"
+       - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          packages: *trusty_pocl_packages
+          sources: *trusty_pocl_sources
+      env:
+       - LINUX_DIST=trusty
+       - OPENCL_LIB=pocl
+       - OPENCL_VERSION="11"
        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
 
     ############################################################################
     # Khronos ICD builds (without running tests) (OpenCL 1.2, 2.0)
     ############################################################################
+
     # Precise, OpenCL 1.2, Travis CI container-based infrastructure
     - os: linux
       sudo: false
@@ -166,7 +217,7 @@ matrix:
            - boost-latest
       env:
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="1.2"
+        - OPENCL_VERSION="12"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     - os: linux
       sudo: false
@@ -177,7 +228,7 @@ matrix:
           sources: *precise_icd_sources
       env:
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="1.2"
+        - OPENCL_VERSION="12"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     # Precise, OpenCL 2.0, Travis CI container-based infrastructure
     - os: linux
@@ -189,7 +240,7 @@ matrix:
           sources: *precise_icd_sources
       env:
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="2.0"
+        - OPENCL_VERSION="20"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     - os: linux
       sudo: false
@@ -200,13 +251,13 @@ matrix:
           sources: *precise_icd_sources
       env:
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="1.2"
+        - OPENCL_VERSION="20"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
     # Trusty, OpenCL 1.2
     - os: linux
       dist: trusty
       sudo: required
-      compiler: gcc
+      compiler: clang
       addons:
        apt:
          packages: &trusty_icd_packages
@@ -229,22 +280,8 @@ matrix:
       env:
         - LINUX_DIST=trusty
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="1.2"
+        - OPENCL_VERSION="12"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
-    - os: linux
-      dist: trusty
-      sudo: required
-      compiler: clang
-      addons:
-        apt:
-          packages: *trusty_icd_packages
-          sources: *trusty_icd_sources
-      env:
-        - LINUX_DIST=trusty
-        - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="1.2"
-        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
-    # Trusty, OpenCL 2.0
     - os: linux
       dist: trusty
       sudo: required
@@ -256,8 +293,9 @@ matrix:
       env:
         - LINUX_DIST=trusty
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="2.0"
+        - OPENCL_VERSION="12"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    # Trusty, OpenCL 2.0
     - os: linux
       dist: trusty
       sudo: required
@@ -269,7 +307,20 @@ matrix:
       env:
         - LINUX_DIST=trusty
         - OPENCL_LIB=khronos-icd
-        - OPENCL_VERSION="2.0"
+        - OPENCL_VERSION="20"
+        - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: gcc
+      addons:
+        apt:
+          packages: *trusty_icd_packages
+          sources: *trusty_icd_sources
+      env:
+        - LINUX_DIST=trusty
+        - OPENCL_LIB=khronos-icd
+        - OPENCL_VERSION="20"
         - ENV_CMAKE_OPTIONS="-DOPENCL_LIBRARIES=${OPENCL_ROOT}/lib/libOpenCL.so -DOPENCL_INCLUDE_DIRS=${OPENCL_ROOT}/include"
 
     ############################################################################
@@ -284,12 +335,24 @@ matrix:
     - os: osx
 
 before_install:
+    # Install recent cmake
     - |
+      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+        CMAKE_URL="http://www.cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
+        mkdir -p ${DEPS_DIR}/cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
+        export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+      fi
+
+    # Install dependencies
+    - |
+      # POCL dependencies for Trusty
+      # llvm-toolchain-trusty-3.7 is not whitelisted yet https://github.com/travis-ci/apt-source-whitelist/issues/199
       if [[ ${LINUX_DIST} == "trusty" && ${OPENCL_LIB} == "pocl" ]]; then
         sudo add-apt-repository -y "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.7 main"
         travis_retry wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | travis_retry sudo apt-key add -
         sudo apt-get update -qq -
         sudo apt-get install -qq -y clang-3.7 libclang-common-3.7-dev libclang-3.7-dev libclang1-3.7 libllvm3.7 lldb-3.7 llvm-3.7 llvm-3.7-dev llvm-3.7-runtime clang-modernize-3.7 clang-format-3.7 lldb-3.7-dev
+      # OSX
       elif [[ ${TRAVIS_OS_NAME} == "osx" ]]; then
         brew update
         brew outdated boost || brew upgrade boost
@@ -298,6 +361,7 @@ before_install:
       fi
     - gem install coveralls-lcov
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+
     # Combine global build options with OS/compiler-dependent options
     - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
     - export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
@@ -308,12 +372,14 @@ install:
     ############################################################################
     - |
       if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
-        mkdir -p bin/opencl/include/CL
-        pushd bin/opencl/include/CL
-        travis_retry wget -r -w 1 -np -nd -nv -A h,hpp --no-check-certificate https://www.khronos.org/registry/cl/api/${OPENCL_VERSION}/
+        mkdir -p ${OPENCL_ROOT}/include/CL
+        pushd ${OPENCL_ROOT}/include/CL
+        travis_retry git clone --depth 1 https://github.com/KhronosGroup/OpenCL-Headers.git -b opencl${OPENCL_VERSION}
+        mv ./OpenCL-Headers/* .
         travis_retry wget -w 1 -np -nd -nv -A h,hpp --no-check-certificate https://www.khronos.org/registry/cl/api/2.1/cl.hpp
         popd
       fi
+
     ############################################################################
     # Build and install POCL https://github.com/pocl/pocl
     ############################################################################
@@ -333,6 +399,7 @@ install:
         make install
         cd ../..
       fi
+
     ############################################################################
     # fglrx does not work: https://github.com/travis-ci/travis-ci/issues/5221,
     # so we build our own linkable .so file.
@@ -346,7 +413,7 @@ install:
         mv ./OpenCL-ICD-Loader/* .
         mkdir -p inc/CL
         pushd inc/CL
-        travis_retry git clone --depth 1  https://github.com/KhronosGroup/OpenCL-Headers.git
+        travis_retry git clone --depth 1 https://github.com/KhronosGroup/OpenCL-Headers.git
         mv ./OpenCL-Headers/* .
         popd
         mkdir -p lib
