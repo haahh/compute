@@ -11,6 +11,10 @@ include_directories(../include)
 
 set(BOOST_COMPONENTS unit_test_framework)
 
+if(MSVC)
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} chrono)
+endif()
+
 if(${BOOST_COMPUTE_USE_CPP11})
   # allow tests to use C++11 features
   add_definitions(-DBOOST_COMPUTE_USE_CPP11)
