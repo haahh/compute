@@ -1,0 +1,40 @@
+# clone directory
+clone_folder: C:\boost.compute
+
+# do not build on tags (GitHub only)
+skip_tags: true
+
+# clone only the top level commit
+shallow_clone: true
+
+# environment variables
+environment:
+  global:
+    BOOST_ROOT: C:\Libraries\boost_1_58_0
+    BOOST_LIBRARYDIR: C:\Libraries\boost_1_58_0\lib64-msvc-12.0
+    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\5.3
+
+os:
+  - Windows Server 2012
+#  - Visual Studio 2015
+
+# build platforms
+platform:
+  - x64
+
+configuration:
+  - Release
+
+before_build:
+  - ps: Start-FileDownload "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
+  - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec.log
+  #- type msiexec.log
+
+build_script:
+  - mkdir build && cd build
+  - cmake -G"Visual Studio 12 2013 Win64" ..
+  - cmake -DBOOST_COMPUTE_BUILD_TESTS=ON  ..
+  - cmake --build . --config Release
+
+test_script:
+  - ctest --output-on-failure

@@ -73,10 +73,20 @@ if(MSVC)
   option(BOOST_COMPUTE_BOOST_ALL_DYN_LINK "Use boost dynamic link libraries" OFF)
   if(${BOOST_COMPUTE_BOOST_ALL_DYN_LINK})
     add_definitions(-DBOOST_ALL_DYN_LINK)
+  else()
+    set(Boost_USE_STATIC_LIBS ON)
   endif()
   link_directories(${Boost_LIBRARY_DIRS})
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-  add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+  add_definitions(-D_SCL_SECURE_NO_WARNINGS)  
+  add_definitions(-DNOMINMAX)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4003") # Not enough actual parameters for a BOOST_PP macro
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4244") # Warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4305") # Warning C4305: 'initializing': truncation from 'double' to 'float'
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4800") # Warning C4800: 'uint32_t' : forcing value to bool 'true' or 'false' (performance warning)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4838") # Warning C4838: conversion from 'double' to 'float' requires a narrowing conversion
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996") # Deprecated declarations in CL/cl.hpp
 endif()
 
 # compiler options
