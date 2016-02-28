@@ -25,8 +25,11 @@ platform:
 configuration:
   - Release
 
+cache:
+  - intel_sdk_for_opencl_2015_r3_x64_setup.msi -> appveyor.yaml
+
 before_build:
-  - ps: Start-FileDownload "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
+  - if not exist intel_sdk_for_opencl_2015_r3_x64_setup.msi appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
   - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec.log
   #- type msiexec.log
 
