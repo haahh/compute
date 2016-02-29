@@ -32,8 +32,7 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 12 2013 Win64" ..
-  - cmake -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
   - cmake --build . --config Release
 
 test_script:
