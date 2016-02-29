@@ -32,8 +32,12 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
-  - cmake --build . --config Release
+  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
+  - cmake --build . --config Release --target list_devices
+  - cmake --build . --config Release --target hello_world
 
 test_script:
-  - ctest --output-on-failure
+  - .\example\Release\list_devices.exe
+  - .\examples\Release\hello_world.exe
+  #- ctest --output-on-failure
+
