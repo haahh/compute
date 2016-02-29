@@ -27,24 +27,26 @@ configuration:
   - Release
 
 before_build:
-  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
-  - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
+  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8539/intel_sdk_for_opencl_setup_6.0.0.1049.exe"
+  - intel_sdk_for_opencl_setup_6.0.0.1049.exe install --output=output.log --eula=accept
+  - type output.log
+  #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
+  #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
   #- type msiexec1.log
-  - appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
-  - start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
+  #- appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
+  #- start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
   #- type msiexec2.log
 
 build_script:
-  - SET BOOST_COMPUTE_DEFAULT_PLATFORM=Intel(R) OpenCL
   - mkdir build && cd build
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
-  - cmake --build . --config Release
-  #- cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
-  #- cmake --build . --config Release --target list_devices
-  #- cmake --build . --config Release --target hello_world
+  #- cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  #- cmake --build . --config Release
+  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
+  - cmake --build . --config Release --target list_devices
+  - cmake --build . --config Release --target hello_world
 
 test_script:
-  #- .\example\Release\list_devices.exe
-  #- .\example\Release\hello_world.exe
-  - ctest --output-on-failure
+  - .\example\Release\list_devices.exe
+  - .\example\Release\hello_world.exe
+  #- ctest --output-on-failure
 
