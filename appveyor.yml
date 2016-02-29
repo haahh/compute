@@ -30,7 +30,7 @@ before_build:
   - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
   #- type msiexec.log
   - appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
-  - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec2.log
+  - start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
   #- type msiexec.log
 
 build_script:
