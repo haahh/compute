@@ -36,6 +36,11 @@ set(EXAMPLES
 
 # boost library link dependencies
 set(EXAMPLE_BOOST_COMPONENTS program_options)
+
+if(MSVC)
+  set(BOOST_COMPONENTS ${BOOST_COMPONENTS} chrono)
+endif()
+
 if (${BOOST_COMPUTE_USE_OFFLINE_CACHE})
   set(EXAMPLE_BOOST_COMPONENTS ${EXAMPLE_BOOST_COMPONENTS} system filesystem)
 endif()
