@@ -38,6 +38,6 @@ build_script:
 
 test_script:
   - .\example\Release\list_devices.exe
-  - .\examples\Release\hello_world.exe
+  - .\example\Release\hello_world.exe
   #- ctest --output-on-failure
 
