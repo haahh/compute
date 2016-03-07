@@ -30,6 +30,7 @@
 #include <boost/compute/utility/wait_list.hpp>
 #include <boost/compute/detail/get_object_info.hpp>
 #include <boost/compute/detail/assert_cl_success.hpp>
+#include <boost/compute/detail/diagnostic.hpp>
 #include <boost/compute/utility/extents.hpp>
 
 namespace boost {
@@ -135,9 +136,23 @@ public:
         } else
         #endif
         {
+            // Suppress deprecated declarations warning
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(push)
+            #  pragma warning(disable: 4996)
+            #endif
+            GCC_DIAG_OFF(deprecated-declarations); // GCC
+            CLANG_DIAG_OFF(deprecated-declarations); // Clang
+
             m_queue = clCreateCommandQueue(
                 context, device.id(), properties, &error
             );
+
+            CLANG_DIAG_ON(deprecated-declarations); // Clang
+            GCC_DIAG_ON(deprecated-declarations); // GCC
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(pop) // Restore warnings to previous state.
+            #endif
         }
 
         if(!m_queue){
@@ -1532,7 +1547,21 @@ public:
         } else
         #endif // CL_VERSION_1_2
         {
+            // Suppress deprecated declarations warning
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(push)
+            #  pragma warning(disable: 4996)
+            #endif
+            GCC_DIAG_OFF(deprecated-declarations); // GCC
+            CLANG_DIAG_OFF(deprecated-declarations); // Clang
+
             ret = clEnqueueBarrier(m_queue);
+
+            CLANG_DIAG_ON(deprecated-declarations); // Clang
+            GCC_DIAG_ON(deprecated-declarations); // GCC
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(pop) // Restore warnings to previous state.
+            #endif
         }
 
         if(ret != CL_SUCCESS){
@@ -1576,7 +1605,21 @@ public:
         } else
         #endif
         {
+            // Suppress deprecated declarations warning
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(push)
+            #  pragma warning(disable: 4996)
+            #endif
+            GCC_DIAG_OFF(deprecated-declarations); // GCC
+            CLANG_DIAG_OFF(deprecated-declarations); // Clang
+
             ret = clEnqueueMarker(m_queue, &event_.get());
+
+            CLANG_DIAG_ON(deprecated-declarations); // Clang
+            GCC_DIAG_ON(deprecated-declarations); // GCC
+            #if defined(_MSC_VER) // MSVC
+            #  pragma warning(pop) // Restore warnings to previous state.
+            #endif
         }
 
         if(ret != CL_SUCCESS){
