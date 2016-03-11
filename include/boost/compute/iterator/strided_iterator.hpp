@@ -78,8 +78,8 @@ struct strided_iterator_index_expr
     typedef typename std::iterator_traits<Iterator>::value_type result_type;
 
     strided_iterator_index_expr(const Iterator &input_iter,
-                                  const Stride &stride,
-                                  const IndexExpr &index_expr)
+                                const Stride &stride,
+                                const IndexExpr &index_expr)
         : m_input_iter(input_iter),
           m_stride(stride),
           m_index_expr(index_expr)
