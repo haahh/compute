@@ -82,32 +82,32 @@ matrix:
        - OPENCL_VERSION="10"
        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     # Trusty, OpenCL 1.1
-    - os: linux
-      dist: trusty
-      sudo: required
-      compiler: clang
-      addons:
-        apt:
-          packages: *trusty_pocl_packages
-          sources: *trusty_pocl_sources
-      env:
-       - LINUX_DIST=trusty
-       - OPENCL_LIB=pocl
-       - OPENCL_VERSION="11"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    - os: linux
-      dist: trusty
-      sudo: required
-      compiler: gcc
-      addons:
-        apt:
-          packages: *trusty_pocl_packages
-          sources: *trusty_pocl_sources
-      env:
-       - LINUX_DIST=trusty
-       - OPENCL_LIB=pocl
-       - OPENCL_VERSION="11"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # - os: linux
+    #   dist: trusty
+    #   sudo: required
+    #   compiler: clang
+    #   addons:
+    #     apt:
+    #       packages: *trusty_pocl_packages
+    #       sources: *trusty_pocl_sources
+    #   env:
+    #    - LINUX_DIST=trusty
+    #    - OPENCL_LIB=pocl
+    #    - OPENCL_VERSION="11"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # - os: linux
+    #   dist: trusty
+    #   sudo: required
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *trusty_pocl_packages
+    #       sources: *trusty_pocl_sources
+    #   env:
+    #    - LINUX_DIST=trusty
+    #    - OPENCL_LIB=pocl
+    #    - OPENCL_VERSION="11"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
 
     ############################################################################
     # Khronos ICD builds (without running tests) (OpenCL 1.2, 2.0)
@@ -228,30 +228,30 @@ matrix:
         - AMDAPPSDK_VERSION=291 # OpenCL 1.2
         - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     # Precise, AMD APP SDK v3.0, OpenCL 2.0, Travis CI container-based infrastructure
-    - os: linux
-      sudo: false
-      compiler: clang
-      addons:
-        apt:
-          packages: *precise_amdappsdk_packages
-          sources: *precise_amdappsdk_sources
-      env:
-        - OPENCL_LIB=amdappsdk
-        - OPENCL_VERSION="20"
-        - AMDAPPSDK_VERSION=300 # OpenCL 2.0
-        - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    - os: linux
-      sudo: false
-      compiler: gcc
-      addons:
-        apt:
-          packages: *precise_amdappsdk_packages
-          sources: *precise_amdappsdk_sources
-      env:
-        - OPENCL_LIB=amdappsdk
-        - OPENCL_VERSION="20"
-        - AMDAPPSDK_VERSION=300 # OpenCL 2.0
-        - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # - os: linux
+    #   sudo: false
+    #   compiler: clang
+    #   addons:
+    #     apt:
+    #       packages: *precise_amdappsdk_packages
+    #       sources: *precise_amdappsdk_sources
+    #   env:
+    #     - OPENCL_LIB=amdappsdk
+    #     - OPENCL_VERSION="20"
+    #     - AMDAPPSDK_VERSION=300 # OpenCL 2.0
+    #     - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # - os: linux
+    #   sudo: false
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *precise_amdappsdk_packages
+    #       sources: *precise_amdappsdk_sources
+    #   env:
+    #     - OPENCL_LIB=amdappsdk
+    #     - OPENCL_VERSION="20"
+    #     - AMDAPPSDK_VERSION=300 # OpenCL 2.0
+    #     - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
 
     ############################################################################
     # OSX
@@ -259,7 +259,7 @@ matrix:
     - os: osx
       compiler: clang
       env:
-        - ENV_CXX_FLAGS="-Wno-c99-extensions"
+        - ENV_CXX_FLAGS="-Wno-c99-extensions -ftemplate-backtrace-limit=0"
 
   allow_failures:
     - os: osx
