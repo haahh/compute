@@ -69,7 +69,7 @@ inline stride_expr<IndexExpr, Stride> make_stride_expr(const IndexExpr &expr, St
 template<class IndexExpr, class Stride>
 inline meta_kernel& operator<<(meta_kernel &kernel, const stride_expr<IndexExpr, Stride> &expr)
 {
-    return kernel << "(" << expr.m_stride << " * (" << expr.m_index_expr << "))";
+    return kernel << "(" << kernel.lit<ulong_>(expr.m_stride) << " * (" << expr.m_index_expr << "))";
 }
 
 template<class Iterator, class Stride, class IndexExpr>
@@ -78,8 +78,8 @@ struct strided_iterator_index_expr
     typedef typename std::iterator_traits<Iterator>::value_type result_type;
 
     strided_iterator_index_expr(const Iterator &input_iter,
-                                const Stride &stride,
-                                const IndexExpr &index_expr)
+                                  const Stride &stride,
+                                  const IndexExpr &index_expr)
         : m_input_iter(input_iter),
           m_stride(stride),
           m_index_expr(index_expr)
