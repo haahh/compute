@@ -72,7 +72,7 @@ inline meta_kernel& operator<<(meta_kernel &kernel,
                                const stride_expr<IndexExpr, Stride> &expr)
 {
     // (expr.m_stride * (expr.m_index_expr))
-    return kernel << "(" << kernel.lit<uint_>(expr.m_stride) <<
+    return kernel << "(" << static_cast<ulong_>(expr.m_stride) <<
                      " * (" << expr.m_index_expr << "))";
 }
 
