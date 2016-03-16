@@ -108,7 +108,33 @@ matrix:
        - OPENCL_LIB=pocl
        - OPENCL_VERSION="11"
        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+      addons:
+        apt:
+          packages: *trusty_pocl_packages
+          sources: *trusty_pocl_sources
+      env:
+       - LINUX_DIST=trusty
+       - OPENCL_LIB=pocl
+       - OPENCL_VERSION="12"
+       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    - os: linux
+      dist: trusty
+      sudo: required
+      compiler: clang
+      addons:
+        apt:
+          packages: *trusty_pocl_packages
+          sources: *trusty_pocl_sources
+      env:
+       - LINUX_DIST=trusty
+       - OPENCL_LIB=pocl
+       - OPENCL_VERSION="20"
+       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ROOT}/pocl/lib/libOpenCL.so -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+       
     ############################################################################
     # Khronos ICD builds (without running tests) (OpenCL 1.2, 2.0)
     ############################################################################
