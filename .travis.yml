@@ -292,9 +292,9 @@ before_install:
           mkdir -p ${DEPS_DIR}/cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
         else
           echo "[ccache] Using cached cmake"
-        fi
-        cmake --version
+        fi        
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+        cmake --version
       fi
 
     # Install dependencies
