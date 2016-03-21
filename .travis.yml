@@ -193,6 +193,10 @@ matrix:
     - os: linux
       sudo: false
       compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $DEPS_DIR/cmake
       addons:
        apt:
          packages: &precise_amdappsdk_packages
