@@ -34,6 +34,10 @@ matrix:
       dist: trusty
       sudo: required
       compiler: clang
+      cache:
+        ccache: true
+        directories:
+          - $DEPS_DIR/cmake
       addons:
         apt:
           packages: &trusty_pocl_packages
@@ -279,8 +283,10 @@ before_install:
     # Install recent cmake
     - |
       if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-        CMAKE_URL="http://www.cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
-        mkdir -p ${DEPS_DIR}/cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
+        if [[ ! -d "${DEPS_DIR}/cmake/bin" ]]; then
+          CMAKE_URL="http://www.cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
+          mkdir -p ${DEPS_DIR}/cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
+        fi
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
       fi
 
