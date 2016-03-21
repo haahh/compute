@@ -286,7 +286,10 @@ before_install:
         if [[ ! -d "${DEPS_DIR}/cmake/bin" ]]; then
           CMAKE_URL="http://www.cmake.org/files/v3.4/cmake-3.4.3-Linux-x86_64.tar.gz"
           mkdir -p ${DEPS_DIR}/cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
+        else
+          echo "[ccache] Using cached cmake"
         fi
+        cmake --version
         export PATH=${DEPS_DIR}/cmake/bin:${PATH}
       fi
 
