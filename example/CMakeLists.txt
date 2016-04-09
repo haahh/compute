@@ -25,6 +25,7 @@ set(EXAMPLES
   point_centroid
   price_cross
   print_vector
+  program_caching
   sort_vector
   simple_kernel
   time_copy
