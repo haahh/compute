@@ -57,10 +57,15 @@ BOOST_AUTO_TEST_CASE(find_end_string)
         bc::find_end(vectort.begin(), vectort.end(),
                      vectorp.begin(), vectorp.end(), queue);
 
-    std::cout << (vectort.begin() + 15).read(queue) << std::endl;
-    std::cout << iter.read(queue);
+    std::cout << "iter.m_index: " << iter.get_index() << std::endl;
+    std::cout << "iter.m_buffer: " << iter.get_buffer().get() << std::endl;
+    std::cout << "*iter: "<< iter.read(queue) << std::endl;
 
-    BOOST_CHECK(iter == vectort.begin() + 15);
+    std::cout << "index: " << (vectort.begin() + 15).get_index() << std::endl;
+    std::cout << "buffer: " << (vectort.begin() + 15).get_buffer().get() << std::endl;
+    std::cout << "value: " << (vectort.begin() + 15).read(queue);
+
+    BOOST_CHECK(iter == (vectort.begin() + 15));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
