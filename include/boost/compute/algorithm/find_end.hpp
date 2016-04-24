@@ -36,6 +36,7 @@ inline InputIterator find_end_helper(InputIterator first,
                                      command_queue &queue)
 {
     typedef typename std::iterator_traits<InputIterator>::value_type value_type;
+    typedef typename std::iterator_traits<InputIterator>::difference_type difference_type;
 
     size_t count = detail::iterator_range_size(first, last);
     if(count == 0){
@@ -65,8 +66,13 @@ inline InputIterator find_end_helper(InputIterator first,
     queue.enqueue_1d_range_kernel(kernel, 0, count, 0);
 
     int result = static_cast<int>(index.read(queue));
-    if(result == -1) return last;
-    else return first + result;
+
+    if(result == -1){
+        return last;
+    }
+    else {
+        return first + static_cast<difference_type>(result);
+    }
 }
 
 } // end detail namespace
