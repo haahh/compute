@@ -302,7 +302,7 @@ before_install:
         brew install lcov homebrew/science/opencv
       fi
     - gem install coveralls-lcov
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
 
     # Combine global build options with OS/compiler-dependent options
     - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
@@ -411,6 +411,13 @@ script:
 
 after_success:
     - lcov --version
-    - lcov --gcov gcov-4.9 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-    - lcov --gcov gcov-4.9 --remove coverage.info '/usr*' -o coverage.info
+    - |
+      if [[ ${RUN_TESTS} == "true" && "$CXX" = "clang++" ]]; then
+        lcov --gcov-tool llvm-cov  --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool llvm-cov --remove coverage.info '/usr*' -o coverage.info
+      elif [[ ${RUN_TESTS} == "true" ]]; then
+        lcov --gcov-tool gcov-4.9 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool gcov-4.9 --remove coverage.info '/usr*' -o coverage.info
+      fi
+
     - cd .. && coveralls-lcov build/coverage.info
