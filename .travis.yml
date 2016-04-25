@@ -193,8 +193,7 @@ matrix:
       addons:
        apt:
          packages: &precise_amdappsdk_packages
-           - g++-4.8
-           - libstdc++6-4.8-dbg
+           - g++-4.9
            # Boost
            - libboost-chrono1.55-dev
            - libboost-date-time1.55-dev
@@ -412,6 +411,6 @@ script:
 
 after_success:
     - lcov --version
-    - lcov --gcov gcov-4.8 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-    - lcov --gcov gcov-4.8 --remove coverage.info '/usr*' -o coverage.info
+    - lcov --gcov gcov-4.9 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+    - lcov --gcov gcov-4.9 --remove coverage.info '/usr*' -o coverage.info
     - cd .. && coveralls-lcov build/coverage.info
