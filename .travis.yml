@@ -420,9 +420,9 @@ after_success:
     - lcov --version
     - |
       if [[ ${RUN_TESTS} == "true" && "$CXX" = "clang++" ]]; then
-        chmod +x .travis/llvm-gcov.sh
-        lcov --gcov-tool .travis/llvm-cov.sh --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-        lcov --gcov-tool .travis/llvm-cov.sh --remove coverage.info '/usr*' -o coverage.info
+        chmod +x ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh
+        lcov --gcov-tool ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh --remove coverage.info '/usr*' -o coverage.info
       elif [[ ${RUN_TESTS} == "true" ]]; then
         lcov --gcov-tool gcov-4.8 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
         lcov --gcov-tool gcov-4.8 --remove coverage.info '/usr*' -o coverage.info
