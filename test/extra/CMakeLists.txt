@@ -1,6 +1,6 @@
 # ---------------------------------------------------------------------------
 #  Copyright (c) 2015 Kyle Lutz <kyle.r.lutz@gmail.com>
-# 
+#
 #  Distributed under the Boost Software License, Version 1.0
 #  See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
@@ -20,8 +20,16 @@ target_link_libraries(test_multiple_objects
     ${Boost_LIBRARIES}
     )
 # link with coverage library
-if(${BOOST_COMPUTE_ENABLE_COVERAGE} AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  target_link_libraries(test_multiple_objects -fprofile-arcs -ftest-coverage)
+if(${BOOST_COMPUTE_ENABLE_COVERAGE})
+  # GCC
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    target_link_libraries(test_multiple_objects -fprofile-arcs -ftest-coverage)
+  endif()
+
+  # Clang
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    target_link_libraries(test_multiple_objects --coverage)
+  endif()
 endif()
 add_test("misc.multiple_objects" test_multiple_objects)
 

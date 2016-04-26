@@ -20,7 +20,7 @@ env:
     - AMDAPPSDKROOT=${OPENCL_ROOT}/AMDAPPSDK
     # Global build options and C++ flags
     - CMAKE_OPTIONS="-DBOOST_COMPUTE_BUILD_TESTS=ON -DBOOST_COMPUTE_BUILD_EXAMPLES=ON -DBOOST_COMPUTE_BUILD_BENCHMARKS=ON -DBOOST_COMPUTE_USE_OFFLINE_CACHE=ON -DBOOST_COMPUTE_ENABLE_COVERAGE=ON -DBOOST_COMPUTE_HAVE_OPENCV=ON -DBOOST_COMPUTE_THREAD_SAFE=ON"
-    - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
+    - CXX_FLAGS="-g -O0 -Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
     # Misc
     - RUN_TESTS=true
 
@@ -217,7 +217,7 @@ matrix:
         - AMDAPPSDK_VERSION=291 # OpenCL 1.2
         - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     - os: linux
-      sudo: false
+      # sudo: false
       compiler: gcc
       addons:
         apt:
@@ -242,7 +242,7 @@ matrix:
         - AMDAPPSDK_VERSION=300 # OpenCL 2.0
         - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     - os: linux
-      sudo: false
+      # sudo: false
       compiler: gcc
       addons:
         apt:
@@ -389,6 +389,13 @@ install:
         chmod +x ${AMDAPPSDKROOT}/bin/x86_64/clinfo
         ${AMDAPPSDKROOT}/bin/x86_64/clinfo
       fi
+    - |
+      if [[ "$CXX" = "g++4.8" && ${OPENCL_LIB} == "amdappsdk" ]]; then
+        export CXX="g++" CC="gcc"
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+        sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-4.8 90
+      fi
 
 script:
     ############################################################################
@@ -399,7 +406,7 @@ script:
     - echo ${CMAKE_OPTIONS}
     - echo ${CXX_FLAGS}
     - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} ..
-    - make -j4 VERBOSE=1
+    - make -j4
     - |
       if [[ ${RUN_TESTS} == "true" ]]; then
         # print OpenCL devices
