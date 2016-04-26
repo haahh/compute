@@ -193,7 +193,7 @@ matrix:
       addons:
        apt:
          packages: &precise_amdappsdk_packages
-           - g++-4.9
+           - g++-4.8
            # Boost
            - libboost-chrono1.55-dev
            - libboost-date-time1.55-dev
@@ -302,7 +302,7 @@ before_install:
         brew install lcov homebrew/science/opencv
       fi
     - gem install coveralls-lcov
-    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
     # Combine global build options with OS/compiler-dependent options
     - export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
@@ -399,7 +399,7 @@ script:
     - echo ${CMAKE_OPTIONS}
     - echo ${CXX_FLAGS}
     - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} ..
-    - make -j4
+    - make -j4 VERBOSE=1
     - |
       if [[ ${RUN_TESTS} == "true" ]]; then
         # print OpenCL devices
@@ -413,11 +413,11 @@ after_success:
     - lcov --version
     - |
       if [[ ${RUN_TESTS} == "true" && "$CXX" = "clang++" ]]; then
-        lcov --gcov-tool llvm-cov  --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-        lcov --gcov-tool llvm-cov --remove coverage.info '/usr*' -o coverage.info
+        chmod +x .travis/llvm-gcov.sh
+        lcov --gcov-tool .travis/llvm-cov.sh --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool .travis/llvm-cov.sh --remove coverage.info '/usr*' -o coverage.info
       elif [[ ${RUN_TESTS} == "true" ]]; then
-        lcov --gcov-tool gcov-4.9 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-        lcov --gcov-tool gcov-4.9 --remove coverage.info '/usr*' -o coverage.info
+        lcov --gcov-tool gcov-4.8 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool gcov-4.8 --remove coverage.info '/usr*' -o coverage.info
       fi
-
     - cd .. && coveralls-lcov build/coverage.info

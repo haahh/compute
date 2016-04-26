@@ -45,9 +45,17 @@ endif()
 # enable automatic kernel compilation error messages for tests
 add_definitions(-DBOOST_COMPUTE_DEBUG_KERNEL_COMPILATION)
 
-# enable code coverage generation (only with GCC for now)
-if(${BOOST_COMPUTE_ENABLE_COVERAGE} AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_definitions(-fprofile-arcs -ftest-coverage)
+# enable code coverage generation
+if(${BOOST_COMPUTE_ENABLE_COVERAGE})
+  # GCC
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    add_definitions(-fprofile-arcs -ftest-coverage)
+  endif()
+
+  # Clang
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    add_definitions(-fprofile-arcs -ftest-coverage)
+  endif()
 endif()
 
 function(add_compute_test TEST_NAME TEST_SOURCE)
@@ -59,8 +67,16 @@ function(add_compute_test TEST_NAME TEST_SOURCE)
   )
 
   # link with coverage library
-  if(${BOOST_COMPUTE_ENABLE_COVERAGE} AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    target_link_libraries(${TEST_TARGET} -fprofile-arcs -ftest-coverage)
+  if(${BOOST_COMPUTE_ENABLE_COVERAGE})
+    # GCC
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+      target_link_libraries(${TEST_TARGET} -fprofile-arcs -ftest-coverage)
+    endif()
+
+    # Clang
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+      target_link_libraries(${TEST_TARGET} --coverage)
+    endif()
   endif()
 
   add_test(${TEST_NAME} ${TEST_TARGET})
