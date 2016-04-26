@@ -217,7 +217,7 @@ matrix:
         - AMDAPPSDK_VERSION=291 # OpenCL 1.2
         - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     - os: linux
-      # sudo: false
+      sudo: required
       compiler: gcc
       addons:
         apt:
@@ -242,7 +242,7 @@ matrix:
         - AMDAPPSDK_VERSION=300 # OpenCL 2.0
         - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
     - os: linux
-      # sudo: false
+      sudo: required
       compiler: gcc
       addons:
         apt:
@@ -390,7 +390,7 @@ install:
         ${AMDAPPSDKROOT}/bin/x86_64/clinfo
       fi
     - |
-      if [[ "$CXX" = "g++4.8" && ${OPENCL_LIB} == "amdappsdk" ]]; then
+      if [[ ${CXX} == "g++4.8" && ${OPENCL_LIB} == "amdappsdk" ]]; then
         export CXX="g++" CC="gcc"
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
@@ -420,11 +420,11 @@ after_success:
     - lcov --version
     - |
       if [[ ${RUN_TESTS} == "true" && "$CXX" = "clang++" ]]; then
-        chmod +x ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh
-        lcov --gcov-tool ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-        lcov --gcov-tool ${TRAVIS_BUILD_DIR}/.travis/llvm-cov.sh --remove coverage.info '/usr*' -o coverage.info
+        gcov --version
+        lcov --gcov-tool /usr/bin/gcov --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --gcov-tool /usr/bin/gcov --remove coverage.info '/usr*' -o coverage.info
       elif [[ ${RUN_TESTS} == "true" ]]; then
-        lcov --gcov-tool gcov-4.8 --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
-        lcov --gcov-tool gcov-4.8 --remove coverage.info '/usr*' -o coverage.info
+        lcov --directory test --base-directory ../include/boost/compute/ --capture --output-file coverage.info
+        lcov --remove coverage.info '/usr*' -o coverage.info
       fi
     - cd .. && coveralls-lcov build/coverage.info
