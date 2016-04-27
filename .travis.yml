@@ -390,7 +390,7 @@ install:
         ${AMDAPPSDKROOT}/bin/x86_64/clinfo
       fi
     - |
-      if [[ ${CXX} == "g++4.8" && ${OPENCL_LIB} == "amdappsdk" ]]; then
+      if [[ ${CXX} == "g++-4.8" && ${OPENCL_LIB} == "amdappsdk" ]]; then
         export CXX="g++" CC="gcc"
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
