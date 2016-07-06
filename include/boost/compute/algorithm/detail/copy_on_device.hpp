@@ -39,11 +39,12 @@ inline event copy_on_device_cpu(InputIterator first,
     k <<
         "uint block = " <<
             "(uint)ceil(((float)count)/get_global_size(0));\n" <<
-        "uint start = get_global_id(0) * block;\n" <<
-        "uint end = min(count, start + block);\n" <<
-        "for(uint i = start; i < end; i++){\n" <<
-            result[k.var<uint_>("i")] << '=' <<
-                first[k.var<uint_>("i")] << ";\n" <<
+        "uint index = get_global_id(0) * block;\n" <<
+        "uint end = min(count, index + block);\n" <<
+        "while(index < end){\n" <<
+            result[k.var<uint_>("index")] << '=' <<
+                first[k.var<uint_>("index")] << ";\n" <<
+            "index++;\n" <<
         "}\n";
 
     k.add_set_arg<const uint_>("count", static_cast<uint_>(count));
