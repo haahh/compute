@@ -100,10 +100,12 @@ inline event dispatch_copy_on_device(InputIterator first,
         return event();
     }
 
+#ifndef __APPLE__
     const device& device = queue.get_device();
     if(device.type() & device::cpu) {
         return copy_on_device_cpu(first, result, count, queue);
     }
+#endif
     return copy_on_device_gpu(first, result, count, queue);
 }
 
