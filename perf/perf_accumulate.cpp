@@ -37,7 +37,11 @@ double perf_accumulate(const compute::vector<T>& data,
     perf_timer t;
     for(size_t trial = 0; trial < trials; trial++){
         t.start();
-        compute::accumulate(data.begin(), data.end(), T(0), queue);
+        compute::accumulate(
+            boost::compute::make_buffer_iterator<compute::int4_>(data.get_buffer()),
+            boost::compute::make_buffer_iterator<compute::int4_>(data.get_buffer(), data.size()/4),
+            compute::int4_(0),
+            queue);
         queue.finish();
         t.stop();
     }
@@ -93,7 +97,7 @@ int main(int argc, char *argv[])
     options.add_options()
         ("help", "show usage instructions")
         ("size", po::value<size_t>()->default_value(8192), "input size")
-        ("trials", po::value<size_t>()->default_value(3), "number of trials to run")
+        ("trials", po::value<size_t>()->default_value(PERF_TRIALS), "number of trials to run")
         ("tune", "run tuning procedure")
     ;
     po::positional_options_description positional_options;
@@ -119,11 +123,11 @@ int main(int argc, char *argv[])
     std::cout << "device: " << device.name() << std::endl;
 
     // create vector of random numbers on the host
-    std::vector<int> host_data(size);
+    std::vector<compute::int_> host_data(size);
     std::generate(host_data.begin(), host_data.end(), rand_int);
 
     // create vector on the device and copy the data
-    compute::vector<int> device_data(
+    compute::vector<compute::int_> device_data(
         host_data.begin(), host_data.end(), queue
     );
 

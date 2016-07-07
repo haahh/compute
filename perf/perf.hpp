@@ -22,7 +22,7 @@
 #include <boost/timer/timer.hpp>
 
 static size_t PERF_N = 1024;
-static size_t PERF_TRIALS = 3;
+static size_t PERF_TRIALS = 250;
 
 // parses command line arguments and sets the corresponding perf variables
 inline void perf_parse_args(int argc, char *argv[])
