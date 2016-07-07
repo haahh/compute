@@ -8,8 +8,8 @@
 // See http://boostorg.github.com/compute for more information.
 //---------------------------------------------------------------------------//
 
-#ifndef BOOST_COMPUTE_ALGORITHM_DETAIL_SERIAL_REDUCE_HPP
-#define BOOST_COMPUTE_ALGORITHM_DETAIL_SERIAL_REDUCE_HPP
+#ifndef BOOST_COMPUTE_ALGORITHM_DETAIL_REDUCE_ON_CPU_HPP
+#define BOOST_COMPUTE_ALGORITHM_DETAIL_REDUCE_ON_CPU_HPP
 
 #include <boost/compute/buffer.hpp>
 #include <boost/compute/command_queue.hpp>
@@ -17,6 +17,7 @@
 #include <boost/compute/detail/iterator_range_size.hpp>
 #include <boost/compute/iterator/buffer_iterator.hpp>
 #include <boost/compute/type_traits/result_of.hpp>
+#include <boost/compute/algorithm/detail/serial_reduce.hpp>
 
 namespace boost {
 namespace compute {
@@ -38,6 +39,9 @@ inline void reduce_on_cpu(InputIterator first,
     size_t count = detail::iterator_range_size(first, last);
     if(count == 0){
         return;
+    }
+    else if((count * sizeof(T)) < 65536) {
+        return serial_reduce(first, last, result, function, queue);
     }
 
     meta_kernel k("reduce_on_cpu");
@@ -64,20 +68,14 @@ inline void reduce_on_cpu(InputIterator first,
         "output[get_global_id(0)] = result;\n";
 
     size_t global_work_size = compute_units;
-    if(count <= 1024) global_work_size = 1;
     kernel kernel = k.compile(context);
 
-    if(global_work_size == 1) {
-        kernel.set_arg(count_arg, static_cast<uint_>(count));
-        kernel.set_arg(output_arg, result.get_buffer());
-        queue.enqueue_1d_range_kernel(kernel, 0, global_work_size, 0);
-        return;
-    }
-
+    // reduction to global_work_size elements
     kernel.set_arg(count_arg, static_cast<uint_>(count));
     kernel.set_arg(output_arg, output);
     queue.enqueue_1d_range_kernel(kernel, 0, global_work_size, 0);
 
+    // final reduction
     reduce_on_cpu(
         make_buffer_iterator<result_type>(output),
         make_buffer_iterator<result_type>(output, global_work_size),
@@ -91,4 +89,4 @@ inline void reduce_on_cpu(InputIterator first,
 } // end compute namespace
 } // end boost namespace
 
-#endif // BOOST_COMPUTE_ALGORITHM_DETAIL_SERIAL_REDUCE_HPP
+#endif // BOOST_COMPUTE_ALGORITHM_DETAIL_REDUCE_ON_CPU_HPP
