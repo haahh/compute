@@ -16,16 +16,59 @@
 
 #include "opencl_version_check.hpp"
 
+namespace boost {
+namespace compute {
+
+class device_mockup : public device
+{
+public:
+    device_mockup()
+        : device()
+    {
+    }
+
+    explicit device_mockup(cl_device_id id, bool retain = true)
+        : device(id, retain)
+    {
+
+    }
+
+    device_mockup(const device &other)
+        : device(other)
+    {
+
+    }
+
+    device_mockup(device&& other) BOOST_NOEXCEPT
+        : device(other)
+    {
+
+    }
+
+    cl_device_type type() const
+    {
+        return device::gpu;
+    }
+};
+
+}
+}
+
 struct Context {
-    boost::compute::device        device;
+    boost::compute::device        real_device;
+    boost::compute::device_mockup device;
+
     boost::compute::context       context;
     boost::compute::command_queue queue;
 
     Context() :
-        device ( boost::compute::system::default_device() ),
-        context( boost::compute::system::default_context() ),
-        queue  ( boost::compute::system::default_queue() )
-    {}
+        real_device ( boost::compute::system::default_device() ),
+        device ( real_device ),
+        context( boost::compute::context(device) ),
+        queue  ( boost::compute::command_queue(context, device) )
+    {
+
+    }
 };
 
 BOOST_FIXTURE_TEST_SUITE(compute_test, Context)
