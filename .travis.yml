@@ -14,7 +14,7 @@ env:
     # POCL
     - POCL_BRANCH=master # branch/tag
     #- POCL_COMMIT= # commit id
-    - POCL_LLVM_VERSION=3.8.0
+    - POCL_LLVM_VERSION=3.9.0
     - POCL_LLVM_CONFIG=${DEPS_DIR}/llvm-${POCL_LLVM_VERSION}/bin/llvm-config
     - POCL_CXX_COMPILER=${DEPS_DIR}/llvm-${POCL_LLVM_VERSION}/bin/clang++
     - POCL_C_COMPILER=${DEPS_DIR}/llvm-${POCL_LLVM_VERSION}/bin/clang
