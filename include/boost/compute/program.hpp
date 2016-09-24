@@ -254,8 +254,8 @@ public:
 
         cl_int ret = clBuildProgram(m_program, 0, 0, options_string, 0, 0);
 
-        #ifdef BOOST_COMPUTE_DEBUG_KERNEL_COMPILATION
-        if(ret != CL_SUCCESS){
+//        #ifdef BOOST_COMPUTE_DEBUG_KERNEL_COMPILATION
+//        if(ret != CL_SUCCESS){
             // print the error, source code and build log
             std::cerr << "Boost.Compute: "
                       << "kernel compilation failed (" << ret << ")\n"
@@ -264,8 +264,8 @@ public:
                       << "\n--- build log ---\n"
                       << build_log()
                       << std::endl;
-        }
-        #endif
+//        }
+//        #endif
 
         if(ret != CL_SUCCESS){
             BOOST_THROW_EXCEPTION(opencl_error(ret));
