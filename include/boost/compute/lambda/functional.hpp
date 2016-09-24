@@ -296,9 +296,9 @@ namespace proto = boost::proto;
             { \
                 ctx.stream << #name << "("; \
                 proto::eval(arg1, ctx); \
-                ctx.stream << ", &"; \
+                ctx.stream << ", &("; \
                 proto::eval(arg2, ctx); \
-                ctx.stream << ")"; \
+                ctx.stream << "))"; \
             } \
         }; \
     } \
@@ -405,9 +405,9 @@ namespace proto = boost::proto;
                 proto::eval(arg1, ctx); \
                 ctx.stream << ", "; \
                 proto::eval(arg2, ctx); \
-                ctx.stream << ", &"; \
+                ctx.stream << ", &("; \
                 proto::eval(arg3, ctx); \
-                ctx.stream << ")"; \
+                ctx.stream << "))"; \
             } \
         }; \
     } \
