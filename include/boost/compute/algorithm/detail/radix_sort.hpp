@@ -14,8 +14,14 @@
 #include <iterator>
 
 #include <boost/assert.hpp>
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/is_fundamental.hpp>
 #include <boost/type_traits/is_signed.hpp>
 #include <boost/type_traits/is_floating_point.hpp>
+
+#include <boost/mpl/and.hpp>
+#include <boost/mpl/not.hpp>
+#include <boost/mpl/or.hpp>
 
 #include <boost/compute/kernel.hpp>
 #include <boost/compute/program.hpp>
@@ -42,6 +48,30 @@ struct is_radix_sortable :
     >
 {
 };
+
+// returns type definition if T is a custom struct
+template<class T>
+std::string get_type_definition(typename boost::enable_if<
+                                    boost::mpl::or_<
+                                            ::boost::compute::is_fundamental<T>,
+                                            ::boost::is_fundamental<T>
+                                        >
+                                >::type* = 0)
+{
+    return "";
+}
+
+// returns type definition if T is a custom struct
+template<class T>
+std::string get_type_definition(typename boost::disable_if<
+                                    boost::mpl::or_<
+                                            ::boost::compute::is_fundamental<T>,
+                                            ::boost::is_fundamental<T>
+                                        >
+                                >::type* = 0)
+{    
+    return boost::compute::type_definition<T>();
+}
 
 template<size_t N>
 struct radix_sort_value_type
@@ -305,9 +335,12 @@ inline void radix_sort_impl(const buffer_iterator<T> first,
         options << " -DASC";
     }
 
+    // get type definition if it is a custom struct
+    std::string custom_type_def = get_type_definition<T2>() + "\n";
+
     // load radix sort program
     program radix_sort_program = cache->get_or_build(
-       cache_key, options.str(), boost::compute::type_definition<T2>() +"\n"+radix_sort_source, context
+       cache_key, options.str(), custom_type_def + radix_sort_source, context
     );
 
     kernel count_kernel(radix_sort_program, "count");
