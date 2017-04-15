@@ -11,15 +11,15 @@ shallow_clone: true
 environment:
   global:
     BOOST_ROOT: C:\Libraries\boost_1_63_0
-    BOOST_LIBRARYDIR: C:\Libraries\boost_1_63_0\lib64-msvc-14.0
-    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\
+    BOOST_LIBRARYDIR: C:\Libraries\boost_1_63_0\lib64-msvc-12.0
+    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\6.3
     BOOST_COMPUTE_DEFAULT_PLATFORM: Intel
 
 # os:
 #  - Windows Server 2012
 #  - Visual Studio 2015
 
-image: Visual Studio 2015
+image: Visual Studio 2013
 
 # build platforms
 platform:
@@ -30,7 +30,7 @@ configuration:
 
 before_build:
   - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/11058/intel_sdk_for_opencl_setup_6.3.0.1904.exe"
-  - intel_sdk_for_opencl_setup_6.3.0.1904.exe install --output=output.log --eula=accept
+  - .\intel_sdk_for_opencl_setup_6.3.0.1904.exe install --output=output.log --eula=accept
   #- type output.log
   #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
   #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
@@ -41,14 +41,14 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 14 2015 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
   - cmake --build . --config Debug
   - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
-  - cmake --build . --config Release --target list_devices
-  - cmake --build . --config Release --target hello_world
+  - cmake --build . --config Debug --target list_devices
+  - cmake --build . --config Debug --target hello_world
 
 test_script:
-  - .\example\Release\list_devices.exe
-  - .\example\Release\hello_world.exe
+  - .\example\Debug\list_devices.exe
+  - .\example\Debug\hello_world.exe
   - ctest --output-on-failure
 
