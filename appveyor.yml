@@ -15,11 +15,7 @@ environment:
     INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\6.3
     BOOST_COMPUTE_DEFAULT_PLATFORM: Intel
 
-# os:
-#  - Windows Server 2012
-#  - Visual Studio 2015
-
-image: Visual Studio 2013
+image: Visual Studio 2017
 
 # build platforms
 platform:
@@ -41,9 +37,9 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  - cmake -G"Visual Studio 15 2017 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
   - cmake --build . --config Debug
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
+  - cmake -G"Visual Studio 15 2017 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
   - cmake --build . --config Debug --target list_devices
   - cmake --build . --config Debug --target hello_world
 
