@@ -12,8 +12,8 @@ environment:
   global:
     BOOST_ROOT: C:\Libraries\boost_1_58_0
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_58_0\lib64-msvc-12.0
-    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\
-    BOOST_COMPUTE_DEFAULT_PLATFORM: Intel(R) OpenCL
+    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\5.3
+    # BOOST_COMPUTE_DEFAULT_PLATFORM: Intel(R) OpenCL
 
 image: Visual Studio 2013
 
@@ -25,14 +25,14 @@ configuration:
   - Debug
 
 before_build:
-  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/8539/intel_sdk_for_opencl_setup_6.0.0.1049.exe"
-  - start /wait .\intel_sdk_for_opencl_setup_6.0.0.1049.exe install --output=output.log --eula=accept
+  #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/8539/intel_sdk_for_opencl_setup_6.0.0.1049.exe"
+  #- start /wait .\intel_sdk_for_opencl_setup_6.0.0.1049.exe install --output=output.log --eula=accept
   #- type output.log
-  #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
-  #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
+  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
+  - start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
   #- type msiexec1.log
-  - appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
-  - start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
+  #- appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
+  #- start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
   #- type msiexec2.log
 
 build_script:
