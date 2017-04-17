@@ -15,7 +15,7 @@ environment:
     INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\6.3
     BOOST_COMPUTE_DEFAULT_PLATFORM: Intel
 
-image: Visual Studio 2017
+image: Visual Studio 2015
 
 # build platforms
 platform:
@@ -25,21 +25,21 @@ configuration:
   - Debug
 
 before_build:
+  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi"
+  - start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
+  #- type msiexec2.log
   - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/11058/intel_sdk_for_opencl_setup_6.3.0.1904.exe"
   - start /wait .\intel_sdk_for_opencl_setup_6.3.0.1904.exe install --output=output.log --eula=accept
   - type output.log
   #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
   #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
   #- type msiexec1.log
-  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi"
-  - start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
-  #- type msiexec2.log
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 15 2017 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  - cmake -G"Visual Studio 14 2015 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
   - cmake --build . --config Debug
-  - cmake -G"Visual Studio 15 2017 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
+  - cmake -G"Visual Studio 14 2015 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
   - cmake --build . --config Debug --target list_devices
   - cmake --build . --config Debug --target hello_world
 
