@@ -37,11 +37,8 @@ before_build:
 
 build_script:
   - mkdir build && cd build
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON ..
+  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_TESTS=ON -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
   - cmake --build . --config Debug
-  - cmake -G"Visual Studio 12 2013 Win64" -DBOOST_COMPUTE_BUILD_EXAMPLES=ON ..
-  - cmake --build . --config Debug --target list_devices
-  - cmake --build . --config Debug --target hello_world
 
 test_script:
   - .\example\Debug\list_devices.exe
