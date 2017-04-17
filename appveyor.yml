@@ -44,4 +44,3 @@ test_script:
   - .\example\Debug\list_devices.exe
   - .\example\Debug\hello_world.exe
   - ctest --output-on-failure
-
