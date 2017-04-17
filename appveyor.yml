@@ -30,7 +30,7 @@ configuration:
 
 before_build:
   - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/11058/intel_sdk_for_opencl_setup_6.3.0.1904.exe"
-  - .\intel_sdk_for_opencl_setup_6.3.0.1904.exe install --output=output.log --eula=accept
+  - start /wait .\intel_sdk_for_opencl_setup_6.3.0.1904.exe install --output=output.log --eula=accept
   - type output.log
   #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
   #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
