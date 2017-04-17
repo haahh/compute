@@ -12,7 +12,7 @@ environment:
   global:
     BOOST_ROOT: C:\Libraries\boost_1_58_0
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_58_0\lib64-msvc-12.0
-    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\5.3
+    INTELOCLSDKROOT: C:\Program Files (x86)\Intel\OpenCL SDK\6.0
     # BOOST_COMPUTE_DEFAULT_PLATFORM: Intel(R) OpenCL
 
 image: Visual Studio 2013
@@ -31,8 +31,8 @@ before_build:
   #- appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/8386/intel_sdk_for_opencl_2015_r3_x64_setup.msi"
   #- start /wait msiexec /i intel_sdk_for_opencl_2015_r3_x64_setup.msi /qn  /l*v msiexec1.log
   #- type msiexec1.log
-  - appveyor DownloadFile "http://registrationcenter.intel.com/irc_nas/5198/opencl_runtime_15.1_x64_setup.msi"
-  - start /wait msiexec /i opencl_runtime_15.1_x64_setup.msi /qn  /l*v msiexec2.log
+  - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/9022/opencl_runtime_16.1.1_x64_setup.msi"
+  - start /wait msiexec /i opencl_runtime_16.1.1_x64_setup.msi /qn  /l*v msiexec2.log
   #- type msiexec2.log
 
 build_script:
