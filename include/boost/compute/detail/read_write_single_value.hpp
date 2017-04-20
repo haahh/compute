@@ -55,10 +55,17 @@ inline void write_single_value(const T &value,
     BOOST_ASSERT(index < buffer.size() / sizeof(T));
     BOOST_ASSERT(buffer.get_context() == queue.get_context());
 
+#ifdef BOOST_COMPUTE_BUG_WORKAROUND_INTEL_001
+    queue.enqueue_write_buffer(buffer,
+                               index * sizeof(T),
+                               sizeof(T),
+                               &value).wait();
+#else
     queue.enqueue_write_buffer(buffer,
                                index * sizeof(T),
                                sizeof(T),
                                &value);
+#endif
 }
 
 // writes value to the first location in buffer
