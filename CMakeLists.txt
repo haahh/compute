@@ -32,6 +32,8 @@ if(NOT MSVC)
   endif()
 endif()
 
+MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
+
 # optional support for offline-caching
 option(BOOST_COMPUTE_USE_OFFLINE_CACHE "Use offline cache for OpenCL program binaries" OFF)
 if(${BOOST_COMPUTE_USE_OFFLINE_CACHE})
