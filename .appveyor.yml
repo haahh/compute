@@ -23,7 +23,7 @@ environment:
     OPENCL_HEADERS_VER: 21
     # OpenCL version used in tests (2.0)
     OPENCL_VERSION: 200
-    CXX_FLAGS: -DBOOST_COMPUTE_MAX_CL_VERSION=($OPENCL_VERSION)
+    CXX_FLAGS: -DBOOST_COMPUTE_MAX_CL_VERSION=%OPENCL_VERSION%
   matrix:
      - VS_VER: 2015
        BOOST_ROOT: C:\Libraries\boost_1_59_0
