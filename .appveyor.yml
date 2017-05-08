@@ -41,6 +41,9 @@ platform:
 configuration:
   - Debug
 
+build:
+  parallel: true
+
 before_build:
   - appveyor DownloadFile "http://registrationcenter-download.intel.com/akdlm/irc_nas/vcp/8539/intel_sdk_for_opencl_setup_6.0.0.1049.exe"
   - start /wait .\intel_sdk_for_opencl_setup_6.0.0.1049.exe install --output=output.log --eula=accept
