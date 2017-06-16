@@ -64,6 +64,13 @@ BOOST_AUTO_TEST_CASE(distance)
     );
 }
 
+BOOST_AUTO_TEST_CASE(dereference)
+{
+    boost::compute::counting_iterator<int> ci =
+        boost::compute::make_counting_iterator(0);
+    BOOST_CHECK_EQUAL(*ci, 0);
+}
+
 BOOST_AUTO_TEST_CASE(copy)
 {
     boost::compute::vector<int> vector(10, context);

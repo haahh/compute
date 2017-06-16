@@ -38,7 +38,8 @@ public:
     typedef ::boost::iterator_facade<
         ::boost::compute::counting_iterator<T>,
         T,
-        ::std::random_access_iterator_tag
+        ::std::random_access_iterator_tag,
+        const T&
     > type;
 };
 
