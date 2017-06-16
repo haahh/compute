@@ -91,6 +91,7 @@ add_compute_test("distributed.copy" test_distributed_copy.cpp)
 add_compute_test("distributed.reduce" test_distributed_reduce.cpp)
 add_compute_test("distributed.transform" test_distributed_transform.cpp)
 add_compute_test("distributed.scan" test_distributed_scan.cpp)
+add_compute_test("distributed.iterator" test_distributed_iterator.cpp)
 
 add_compute_test("utility.extents" test_extents.cpp)
 add_compute_test("utility.invoke" test_invoke.cpp)
