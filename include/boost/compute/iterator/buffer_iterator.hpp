@@ -184,12 +184,12 @@ public:
         return detail::read_single_value<T>(m_buffer, m_index, queue);
     }
 
-    void write(const T &value, command_queue &queue)
+    event write(const T &value, command_queue &queue)
     {
         BOOST_ASSERT(m_buffer.get());
         BOOST_ASSERT(m_index < m_buffer.size() / sizeof(T));
 
-        detail::write_single_value<T>(value, m_buffer, m_index, queue);
+        return detail::write_single_value<T>(value, m_buffer, m_index, queue);
     }
 
     /// \internal_
