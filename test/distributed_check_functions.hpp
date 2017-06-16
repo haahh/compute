@@ -77,20 +77,23 @@ distributed_equal(const boost::compute::distributed::vector<T, weight, Alloc> &i
 }
 
 template<
-    class T, boost::compute::distributed::weight_func weight, class Alloc
+    class T,
+    boost::compute::distributed::weight_func weight,
+    class Alloc,
+    class Iterator
 >
 inline bool
 distributed_equal(const boost::compute::distributed::vector<T, weight, Alloc> &input,
-                  typename std::vector<T>::iterator first,
-                  typename std::vector<T>::iterator end,
+                  Iterator first,
+                  Iterator end,
                   boost::compute::distributed::command_queue &queue)
 {
     if(std::distance(first, end) != input.size()) {
         return false;
     }
 
-    typename std::vector<T>::iterator part_first = first;
-    typename std::vector<T>::iterator part_end = first;
+    Iterator part_first = first;
+    Iterator part_end = first;
     for(size_t i = 0; i < input.parts(); i++)
     {
         part_end += input.part_size(i);
