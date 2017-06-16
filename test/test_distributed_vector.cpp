@@ -16,15 +16,16 @@
 #include <boost/compute/context.hpp>
 #include <boost/compute/allocator/pinned_allocator.hpp>
 #include <boost/compute/container/vector.hpp>
+
 #include <boost/compute/distributed/context.hpp>
 #include <boost/compute/distributed/command_queue.hpp>
 #include <boost/compute/distributed/vector.hpp>
 
-#include "check_macros.hpp"
-#include "context_setup.hpp"
-
 #include "distributed_check_functions.hpp"
 #include "distributed_queue_setup.hpp"
+
+#include "check_macros.hpp"
+#include "context_setup.hpp"
 
 namespace bc = boost::compute;
 

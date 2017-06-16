@@ -25,11 +25,11 @@
 #include <boost/compute/distributed/reduce.hpp>
 #include <boost/compute/distributed/copy.hpp>
 
-#include "check_macros.hpp"
-#include "context_setup.hpp"
-
 #include "distributed_check_functions.hpp"
 #include "distributed_queue_setup.hpp"
+
+#include "check_macros.hpp"
+#include "context_setup.hpp"
 
 namespace bc = boost::compute;
 
