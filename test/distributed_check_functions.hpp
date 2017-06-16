@@ -11,6 +11,11 @@
 #ifndef BOOST_COMPUTE_TEST_CHECK_FUNCTIONS_HPP
 #define BOOST_COMPUTE_TEST_CHECK_FUNCTIONS_HPP
 
+#include <boost/compute/context.hpp>
+#include <boost/compute/algorithm/copy.hpp>
+#include <boost/compute/algorithm/equal.hpp>
+#include <boost/compute/container/vector.hpp>
+
 #include <boost/compute/distributed/context.hpp>
 #include <boost/compute/distributed/command_queue.hpp>
 #include <boost/compute/distributed/vector.hpp>
