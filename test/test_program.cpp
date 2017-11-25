@@ -357,6 +357,9 @@ BOOST_AUTO_TEST_CASE(program_build_exception)
                       compute::program_build_failure);
 
     try {
+        // POCL fails if we build the same incorrect program twice
+        invalid_program =
+            compute::program::create_with_source(invalid_source, context);
         invalid_program.build();
 
         // should not get here
