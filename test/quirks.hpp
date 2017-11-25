@@ -75,47 +75,31 @@ inline bool bug_in_clcreatebuffer(const boost::compute::device &device)
 // returns true if the device supports image samplers.
 inline bool supports_image_samplers(const boost::compute::device &device)
 {
-    // POCL does not yet support image samplers and gives the following
-    // error when attempting to create one:
-    //
-    // pocl error: encountered unimplemented part of the OpenCL specs
-    // in clCreateSampler.c:28
-    if(is_pocl_device(device)){
-        return false;
-    }
-
     return true;
 }
 
 // returns true if the device has remquo() built-in OpenCL function implementation
 inline bool has_remquo_func(const boost::compute::device &device)
 {
-    // POCL does not have it
-    if(is_pocl_device(device)){
-        return false;
-    }
     return true;
 }
 
 // returns true if the device supports clSetMemObjectDestructorCallback
 inline bool supports_destructor_callback(const boost::compute::device &device)
 {
-    // unimplemented in POCL
-    return !is_pocl_device(device);
+    return true;
 }
 
 // returns true if the device supports clCompileProgram
 inline bool supports_compile_program(const boost::compute::device &device)
 {
-    // unimplemented in POCL
-    return !is_pocl_device(device);
+    return true;
 }
 
 // returns true if the device supports clLinkProgram
 inline bool supports_link_program(const boost::compute::device &device)
 {
-    // unimplemented in POCL
-    return !is_pocl_device(device);
+    return true;
 }
 
 #endif // BOOST_COMPUTE_TEST_QUIRKS_HPP
