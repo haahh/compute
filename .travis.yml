@@ -12,8 +12,8 @@ env:
     - OPENCL_REGISTRY=https://www.khronos.org/registry/cl
     - OPENCL_ROOT=${DEPS_DIR}/opencl
     # POCL
-    - POCL_BRANCH=release_0_13 # branch/tag
-    #- POCL_COMMIT= # commit id
+    - POCL_BRANCH=master # branch/tag
+    - POCL_COMMIT=07fb58ea072eb7d2832a00e060fc9f1577802204 # commit id
     - POCL_LLVM_VERSION=3.8.0
     - POCL_LLVM_CONFIG=${DEPS_DIR}/llvm-${POCL_LLVM_VERSION}/bin/llvm-config
     - POCL_CXX_COMPILER=${DEPS_DIR}/llvm-${POCL_LLVM_VERSION}/bin/clang++
