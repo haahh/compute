@@ -26,9 +26,9 @@
 
 namespace compute = boost::compute;
 
-const char source[] =
-    "__kernel void foo(__global float *x, const uint n) { }\n"
-    "__kernel void bar(__global int *x, __global int *y) { }\n";
+//const char source[] =
+//    "__kernel void foo(__global float *x, const uint n) { }\n"
+//    "__kernel void bar(__global int *x, __global int *y) { }\n";
 
 
 // BOOST_AUTO_TEST_CASE(get_program_info)
