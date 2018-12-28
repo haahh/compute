@@ -10,6 +10,7 @@ env:
     # Khronos OpenCL ICD
     - OPENCL_REGISTRY=https://www.khronos.org/registry/OpenCL/
     - OPENCL_ROOT=${DEPS_DIR}/opencl
+    - OPENCL_ICD_LIB=${OPENCL_ROOT}/lib/libOpenCL.so
     # POCL
     - POCL_BRANCH=release_1_2 # branch/tag
     - POCL_LLVM_VERSION=7.0.0
@@ -156,7 +157,7 @@ matrix:
             - python-yaml
             - lcov
             - libopencv-dev
-          sources: &xenial_intel_packages
+          sources: &xenial_intel_sources
             - ubuntu-toolchain-r-test
       env:
         - OPENCL_LIB=intel
@@ -169,7 +170,7 @@ matrix:
       addons:
         apt:
           packages: *xenial_intel_packages
-          sources: *xenial_intel_packages
+          sources: *xenial_intel_sources
       env:
         - OPENCL_LIB=intel
         - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=102"
@@ -182,7 +183,7 @@ matrix:
       addons:
         apt:
           packages: *xenial_intel_packages
-          sources: *xenial_intel_packages
+          sources: *xenial_intel_sources
       env:
         - OPENCL_LIB=intel
         - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=200"
@@ -194,7 +195,7 @@ matrix:
       addons:
         apt:
           packages: *xenial_intel_packages
-          sources: *xenial_intel_packages
+          sources: *xenial_intel_sources
       env:
         - OPENCL_LIB=intel
         - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=200"
@@ -258,13 +259,13 @@ matrix:
             - g++-5
             # Misc
             - libopencv-dev
-         sources: &xenial_packages
+         sources: &xenial_sources
            - ubuntu-toolchain-r-test
       env:
         - OPENCL_LIB=khronos-icd
         - RUN_TESTS=false
         - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
-        - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
+        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
     # GCC
     - os: linux
       dist: xenial
@@ -272,12 +273,12 @@ matrix:
       addons:
         apt:
           packages: *xenial_packages
-          sources: *xenial_packages
+          sources: *xenial_sources
       env:
         - OPENCL_LIB=khronos-icd
         - RUN_TESTS=false
-        - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=201"
-        - ENV_CMAKE_OPTIONS="-DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
+        - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
+        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
 
     ############################################################################
     # OSX
