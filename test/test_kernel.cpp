@@ -19,6 +19,8 @@
 #include "context_setup.hpp"
 #include "check_macros.hpp"
 
+#include <iostream>
+
 namespace compute = boost::compute;
 
 BOOST_AUTO_TEST_CASE(name)
@@ -179,6 +181,10 @@ BOOST_AUTO_TEST_CASE(get_sub_group_info_ext)
 
     if(device.check_version(2, 1))
     {
+        if(count)
+        {            
+            std::cout << *count << std::endl;
+        }
         BOOST_CHECK(count);
     }
     else if(device.check_version(2, 0) && device.supports_extension("cl_khr_subgroups"))
@@ -202,6 +208,10 @@ BOOST_AUTO_TEST_CASE(get_sub_group_info_ext)
 
     if(device.check_version(2, 1))
     {
+        if(count)
+        {            
+            std::cout << *count << std::endl;
+        }
         BOOST_CHECK(count);
     }
     else if(device.check_version(2, 0) && device.supports_extension("cl_khr_subgroups"))

@@ -35,101 +35,101 @@ matrix:
     # POCL builds (OpenCL 1.0, 1.1, 1.2)
     ############################################################################
 
-    # Xenial, OpenCL 1.0
-    # CLANG
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-        apt:
-          packages: &xenial_pocl_packages
-            - g++-5
-            # POCL
-            - libltdl-dev
-            - libhwloc-dev
-            - pkg-config
-            - libedit-dev
-            # Boost
-            - libboost-chrono1.58-dev
-            - libboost-date-time1.58-dev
-            - libboost-test1.58-dev
-            - libboost-system1.58-dev
-            - libboost-filesystem1.58-dev
-            - libboost-timer1.58-dev
-            - libboost-program-options1.58-dev
-            - libboost-thread1.58-dev
-            # Misc
-            - python-yaml
-            - lcov
-            - libopencv-dev
-          sources: &xenial_pocl_sources
-            - ubuntu-toolchain-r-test
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=100"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    # GCC
-    - os: linux
-      dist: xenial
-      compiler: gcc
-      addons:
-        apt:
-          packages: *xenial_pocl_packages
-          sources: *xenial_pocl_sources
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=100"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    # Xenial, OpenCL 1.1
-    # CLANG
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-        apt:
-          packages: *xenial_pocl_packages
-          sources: *xenial_pocl_sources
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=101"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    # GCC
-    - os: linux
-      dist: xenial
-      compiler: gcc
-      addons:
-        apt:
-          packages: *xenial_pocl_packages
-          sources: *xenial_pocl_sources
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=101"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    # Xenial, OpenCL 1.2
-    # CLANG
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-        apt:
-          packages: *xenial_pocl_packages
-          sources: *xenial_pocl_sources
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=102"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
-    # GCC
-    - os: linux
-      dist: xenial
-      compiler: gcc
-      addons:
-        apt:
-          packages: *xenial_pocl_packages
-          sources: *xenial_pocl_sources
-      env:
-       - OPENCL_LIB=pocl
-       - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=102"
-       - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_ENABLE_COVERAGE=ON"
+    # # Xenial, OpenCL 1.0
+    # # CLANG
+    # - os: linux
+    #   dist: xenial
+    #   compiler: clang
+    #   addons:
+    #     apt:
+    #       packages: &xenial_pocl_packages
+    #         - g++-5
+    #         # POCL
+    #         - libltdl-dev
+    #         - libhwloc-dev
+    #         - pkg-config
+    #         - libedit-dev
+    #         # Boost
+    #         - libboost-chrono1.58-dev
+    #         - libboost-date-time1.58-dev
+    #         - libboost-test1.58-dev
+    #         - libboost-system1.58-dev
+    #         - libboost-filesystem1.58-dev
+    #         - libboost-timer1.58-dev
+    #         - libboost-program-options1.58-dev
+    #         - libboost-thread1.58-dev
+    #         # Misc
+    #         - python-yaml
+    #         - lcov
+    #         - libopencv-dev
+    #       sources: &xenial_pocl_sources
+    #         - ubuntu-toolchain-r-test
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=100"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # # GCC
+    # - os: linux
+    #   dist: xenial
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *xenial_pocl_packages
+    #       sources: *xenial_pocl_sources
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=100"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # # Xenial, OpenCL 1.1
+    # # CLANG
+    # - os: linux
+    #   dist: xenial
+    #   compiler: clang
+    #   addons:
+    #     apt:
+    #       packages: *xenial_pocl_packages
+    #       sources: *xenial_pocl_sources
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=101"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # # GCC
+    # - os: linux
+    #   dist: xenial
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *xenial_pocl_packages
+    #       sources: *xenial_pocl_sources
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=101"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # # Xenial, OpenCL 1.2
+    # # CLANG
+    # - os: linux
+    #   dist: xenial
+    #   compiler: clang
+    #   addons:
+    #     apt:
+    #       packages: *xenial_pocl_packages
+    #       sources: *xenial_pocl_sources
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=102"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include"
+    # # GCC
+    # - os: linux
+    #   dist: xenial
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *xenial_pocl_packages
+    #       sources: *xenial_pocl_sources
+    #   env:
+    #    - OPENCL_LIB=pocl
+    #    - ENV_CXX_FLAGS="-Wno-unused-local-typedef -DBOOST_COMPUTE_MAX_CL_VERSION=102"
+    #    - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${POCL_OPENCL_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_ENABLE_COVERAGE=ON"
 
     ############################################################################
     # Intel OpenCL Runtime builds (1.2, 2.0, 2.1)
@@ -248,48 +248,48 @@ matrix:
     # OpenCL 2.2 Only Build
     ############################################################################
 
-    # Linux, OpenCL 2.2, Tests not run, C++11
-    # CLANG
-    - os: linux
-      dist: xenial
-      compiler: clang
-      addons:
-       apt:
-         packages: &xenial_packages
-            - g++-5
-            # Misc
-            - libopencv-dev
-         sources: &xenial_sources
-           - ubuntu-toolchain-r-test
-      env:
-        - OPENCL_LIB=khronos-icd
-        - RUN_TESTS=false
-        - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
-        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
-    # GCC
-    - os: linux
-      dist: xenial
-      compiler: gcc
-      addons:
-        apt:
-          packages: *xenial_packages
-          sources: *xenial_sources
-      env:
-        - OPENCL_LIB=khronos-icd
-        - RUN_TESTS=false
-        - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
-        - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
+    # # Linux, OpenCL 2.2, Tests not run, C++11
+    # # CLANG
+    # - os: linux
+    #   dist: xenial
+    #   compiler: clang
+    #   addons:
+    #    apt:
+    #      packages: &xenial_packages
+    #         - g++-5
+    #         # Misc
+    #         - libopencv-dev
+    #      sources: &xenial_sources
+    #        - ubuntu-toolchain-r-test
+    #   env:
+    #     - OPENCL_LIB=khronos-icd
+    #     - RUN_TESTS=false
+    #     - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
+    #     - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
+    # # GCC
+    # - os: linux
+    #   dist: xenial
+    #   compiler: gcc
+    #   addons:
+    #     apt:
+    #       packages: *xenial_packages
+    #       sources: *xenial_sources
+    #   env:
+    #     - OPENCL_LIB=khronos-icd
+    #     - RUN_TESTS=false
+    #     - ENV_CXX_FLAGS="-DBOOST_COMPUTE_MAX_CL_VERSION=202"
+    #     - ENV_CMAKE_OPTIONS="-DOpenCL_LIBRARY=${OPENCL_ICD_LIB} -DOpenCL_INCLUDE_DIR=${OPENCL_ROOT}/include -DBOOST_COMPUTE_USE_CPP11=ON"
 
     ############################################################################
     # OSX
     ############################################################################
 
-    # OSX build
-    - os: osx
-      compiler: clang
-      env:
-        - ENV_CXX_FLAGS="-Wno-c99-extensions"
-        - ENV_CMAKE_OPTIONS="-DBOOST_COMPUTE_HAVE_OPENCV=OFF"
+    # # OSX build
+    # - os: osx
+    #   compiler: clang
+    #   env:
+    #     - ENV_CXX_FLAGS="-Wno-c99-extensions"
+    #     - ENV_CMAKE_OPTIONS="-DBOOST_COMPUTE_HAVE_OPENCV=OFF"
 
 cache:
   directories:

@@ -12,6 +12,7 @@
 #define BOOST_COMPUTE_KERNEL_HPP
 
 #include <string>
+#include <iostream>
 
 #include <boost/assert.hpp>
 #include <boost/utility/enable_if.hpp>
@@ -242,9 +243,11 @@ public:
     {
         if(device.check_version(2, 1))
         {
-            return detail::get_object_info<T>(
+            T t = detail::get_object_info<T>(
                 clGetKernelSubGroupInfo, m_kernel, info, device.id(), input_size, input
             );
+            std::cout << t << std::endl;
+            return t;
         }
         else if(!device.check_version(2, 0) || !device.supports_extension("cl_khr_subgroups"))
         {
